@@ -1,0 +1,13 @@
+{
+  "name": "sit753-8.1c-task2",
+  "version": "1.0.0",
+  "description": "A placeholder project for a Jenkins pipeline.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'Running project tests...'",
+    "coverage": "echo 'Generating coverage report...'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
