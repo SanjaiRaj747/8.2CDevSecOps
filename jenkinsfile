@@ -8,37 +8,40 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'npm test || true' // Allows pipeline to continue despite test failures
+                bat 'npm test || exit 0'
             }
         }
         stage('Generate Coverage Report') {
             steps {
                 // Ensure coverage report exists
-                sh 'npm run coverage || true'
+                bat 'npm run coverage || exit 0'
             }
         }
         stage('NPM Audit (Security Scan)') {
             steps {
-                sh 'npm audit || true' // This will show known CVEs in the output
+                bat 'npm audit || exit 0'
             }
         }
         stage('SonarCloud Analysis') {
             steps {
-                // Securely use the SONAR_TOKEN credential
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    sh '''
+                    bat '''
                     # Download the SonarScanner CLI
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-                    unzip sonar-scanner-cli-4.7.0.2747-linux.zip
-                    export PATH=$PWD/sonar-scanner-4.7.0.2747-linux/bin:$PATH
+                    curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-windows.zip" -o sonar-scanner-cli-4.7.0.2747-windows.zip
+                    
+                    # Unzip the file
+                    tar -xf sonar-scanner-cli-4.7.0.2747-windows.zip
+                    
+                    # Add sonar-scanner to the path
+                    set PATH=%CD%\\sonar-scanner-4.7.0.2747-windows\\bin;%PATH%
                     
                     # Run the analysis using the sonar-project.properties file
-                    sonar-scanner
+                    sonar-scanner.bat
                     '''
                 }
             }
