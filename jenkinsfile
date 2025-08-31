@@ -31,14 +31,14 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     bat '''
-                    # Download the SonarScanner CLI
-                    curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-windows.zip" -o sonar-scanner-cli-4.7.0.2747-windows.zip
+                    # Download the SonarScanner CLI version compatible with Java 11
+                    curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-windows.zip" -o sonar-scanner-cli-4.6.2.2472-windows.zip
                     
                     # Unzip the file
-                    tar -xf sonar-scanner-cli-4.7.0.2747-windows.zip
+                    tar -xf sonar-scanner-cli-4.6.2.2472-windows.zip
                     
                     # Add sonar-scanner to the path
-                    set PATH=%CD%\\sonar-scanner-4.7.0.2747-windows\\bin;%PATH%
+                    set PATH=%CD%\\sonar-scanner-4.6.2.2472-windows\\bin;%PATH%
                     
                     # Run the analysis using the sonar-project.properties file
                     sonar-scanner.bat
