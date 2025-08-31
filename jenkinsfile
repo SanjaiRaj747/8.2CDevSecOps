@@ -32,23 +32,23 @@ pipeline {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     bat '''
                     # Download a compatible Java 17 Runtime for Windows
-                    curl -L "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jre_x64_windows_hotspot_17.0.1_12.zip" -o openjdk-17.zip
+                    curl -L "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.10%2B7/OpenJDK17U-jre_x64_windows_hotspot_17.0.10_7.zip" -o openjdk-17.zip
                     
                     # Unzip the Java runtime
                     tar -xf openjdk-17.zip
 
                     # Set the JAVA_HOME and PATH variables to use Java 17
-                    set JAVA_HOME=%CD%\\jdk-17.0.1+12-jre
+                    set JAVA_HOME=%CD%\\jdk-17.0.10+7-jre
                     set PATH=%JAVA_HOME%\\bin;%PATH%
 
                     # Download the SonarScanner CLI
-                    curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-windows.zip" -o sonar-scanner-cli-4.7.0.2747-windows.zip
+                    curl -L "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-windows.zip" -o sonar-scanner-cli.zip
                     
                     # Unzip the scanner
-                    tar -xf sonar-scanner-cli-4.7.0.2747-windows.zip
+                    tar -xf sonar-scanner-cli.zip
                     
                     # Add sonar-scanner to the path
-                    set PATH=%CD%\\sonar-scanner-4.7.0.2747-windows\\bin;%PATH%
+                    set PATH=%CD%\\sonar-scanner-5.0.1.3006-windows\\bin;%PATH%
                     
                     # Run the analysis using the sonar-project.properties file
                     sonar-scanner.bat
